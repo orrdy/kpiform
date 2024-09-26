@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shotcut icon" href="./bot.ico">
+  <title>KPI Data</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+    integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <style>
+    body {
+      height: 100%;
+      font-family: 'Prompt', sans-serif;
+      background-color: #2EBDBD;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <div class="d-flex">
+              <a class="nav-link active" aria-current="page" href="#" id="logout-btn">ลงชื่อออก</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="d-flex">
+              <a class="nav-link" href="#" id="account-btn">เข้าใช้บัญชีอื่น</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid d-flex flex-column justify-content-center align-items-center h-100 w-100" id="main-body">
+    <div class="mt-3">
+      <form id="form1">
+        <div class="row justify-content-center">
+          <div class="col-auto m-2 text-center text-light">
+            <p id="header-p" class="display-5 text-bg-warning rounded-pill p-2 px-3 shadow">ฟอร์มส่งรายงาน
+              KPI</p>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-12 text-center m-2">
+            <img alt="profile picture" src="https://sv1.picz.in.th/images/2023/02/05/LijRiz.png"
+              style="display: none; filter: blur(3px) drop-shadow(2px 4px 6px black); max-width: 300px"
+              class="img-fluid rounded-circle shadow" id="profile-picture">
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-7 col-md-2 m-2">
+            <p id="username" class="h3 fw-bold text-light text-center" style="display: none;"></p>
+          </div>
+        </div>
+        <div id="input-data" style="display: none;">
+          <div class="row justify-content-start g-3 px-4">
+            <div class="col-md-4">
+              <label for="date" class="form-label h4 text-light">วันที่</label>
+              <select name="date" id="date" class="form-select form-select-lg text-center">
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="keys" class="form-label h4 text-light">ยอดขายกุญแจ</label>
+              <input type="text" class="form-control form-control-lg text-center input-data target" id="keys"
+                name="keys">
+            </div>
+            <div class="col-md-4">
+              <label for="devices" class="form-label h4 text-light">ยอดขายเครื่องมือ</label>
+              <input type="text" class="form-control form-control-lg text-center input-data target" id="devices"
+                name="devices">
+            </div>
+            <div class="col-md-4">
+              <label for="customer_meeting" class="form-label h4 text-light">พบลูกค้าเก่า (คน)</label>
+              <input type="text" class="form-control  form-control-lg text-center input-data" id="customer_meeting"
+                name="customer_meeting">
+            </div>
+            <div class="col-md-4">
+              <label for="target_customer" class="form-label h4 text-light">ลูกค้าเป้าหมาย (คน)</label>
+              <input type="text" class="form-control  form-control-lg text-center input-data" id="target_customer"
+                name="target_customer">
+            </div>
+            <div class="col-md-4">
+              <label for="new_customer_5000" class="form-label h4 text-light">ซื้อเกิน 5,000 (คน)</label>
+              <input type="text" class="form-control  form-control-lg text-center input-data" id="new_customer_5000"
+                name="new_customer_5000">
+            </div>
+            <div class="col-md-4">
+              <label for="name_devices" class="form-label h4 text-light">รายชื่อเครื่อง</label>
+              <input type="text" class="form-control  form-control-lg text-center" id="name_devices"
+                name="name_devices">
+            </div>
+            <div class="col-12 text-center mb-2">
+              <button id="submit" class="btn btn-lg btn-primary" style="min-width: 150px"><i
+                  class="bi bi-send-fill"></i>&nbsp;บันทึก</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <section class="container-fluid m-0 p-0 rounded shadow " id="all-charts" style="display: none;">
+      <div class="row g-2 table-responsive" id="table-div"></div>
+      <div class="row g-2" id="charts-div">
+        <div class="col-12 text-center"><img class="w-100 total_chart"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_pli"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_pli2"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_pli3"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_pli4"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_พี่รอก"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_โย่ง"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_ทีน"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_cc"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_hc"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_hs"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_sy"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_mag"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_wl"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_wp"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_pas"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_immobilizer"></div>
+        <div class="col-md-6 text-center"><img class="w-100 kpi_immobilizer"></div>
+        <div class="col-12 text-center" style="overflow-x: scroll;"><img class="chart_ลูกค้าใหม่"></div>
+        <div class="col-12 text-center" style="overflow-x: scroll;"><img class="chart_ลูกค้าเก่า"></div>
+        <div class="col-md-6 text-center" style="overflow-x: scroll;"><img class="แผนภูมิ"></div>
+        <div class="col-6 col-md-4 text-center"><img class="w-100 chart_target"></div>
+        <div class="col-6 col-md-4 text-center"><img class="w-100 chart_sales"></div>
+        <div class="col-12  text-center" style="overflow-x: scroll;"><img class="chart_target_reach">
+        </div>
+      </div>
+    </section>
+    <section class="row m-2 p-2 rounded shadow" id="chart-sec" style="height: 40vh; display: none;">
+      <div class="col-6 rounded-start p-0 pe-1">
+        <div class="bg-success" style="height: 25%; border-top-left-radius: 7px;">
+          <div class="d-flex justify-content-center align-items-center h-100">
+            <p class="h3 text-light" id="target-line"></p>
+          </div>
+        </div>
+        <div class="bg-warning" style="height: 25%;">
+          <div class="d-flex justify-content-center align-items-center h-100">
+            <p class="h3 text-dark" id="mean-line"></p>
+          </div>
+        </div>
+        <div class="bg-danger" style="height: 50%; border-bottom-left-radius: 7px;">
+          <div class="d-flex justify-content-center align-items-center h-100">
+            <p class="h3 text-light" id="low-line">ต่ำกว่าค่าเฉลี่ย</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 p-0 ps-1 rounded-end">
+        <div style="height: 50%; border-top-right-radius: 7px; background-color: #d0cecf;" class="parent-fluid">
+          <div class="d-flex justify-content-center align-items-center h-100">
+            <p class="h3 text-dark" id="blank"></p>
+          </div>
+        </div>
+        <div class="parent-fluid text-bg-danger" style="height: 50%; border-bottom-right-radius: 7px;">
+          <div class="d-flex justify-content-center align-items-center h-100">
+            <p class="h3" id="line-person"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="modal-regist" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-bg-warning">
+        <!-- <div class="modal-header justify-content-center">
+                        <p class="modal-title text-danger h1"><i class="fas fa-exclamation-circle"></i>&nbsp; คุณยังไม่ได้ลงทะเบียน</p>
+                    </div> -->
+        <div class="modal-body">
+          <form id="form-">
+            <p class="modal-title text-center h1"><i class="fas fa-exclamation-circle"></i>&nbsp;
+              คุณยังไม่ได้ลงทะเบียน</p>
+            <div class="row justify-content-center my-0 py-0">
+              <div class="col-md-6 text-center">
+                <label for="name-select" class="form-label">กรุณาเลือกชื่อของคุณเพื่อลงทะเบียนเข้าใช้งาน</label>
+                <select name="name-select" id="name-select" class="form-select form-select-lg text-center">
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-primary" id="btn-regist">ลงทะเบียน</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <script>
+    const liffId = '1656187634-joNMPmDq'
+    console.log("12345")
+    // const liffId = '1655873446-MpmBPPzl'
+    const script_url = 'https://script.google.com/macros/s/AKfycbw7wDDfdtH5ioB9Z4xSGpDqhWDaJit4xk-M0Ih9K5jsXgtX0qesq2DH-5lGTEyyJ2tY/exec'
+    var profile
+    // $('#profile-picture').hide()
+    // $('#username').hide()
+    // $('#input-data').hide()
+    // $('#logout-btn').hide()
+    // $('#account-btn').hide()
+    $(document).ready(() => {
+      initApp()
+    })
+    function initApp() {
+      let searchParams = new URLSearchParams(window.location.search)
+      let changeAccount = searchParams.get('changeAccount')
+      console.log(changeAccount)
+      setDate()
+      liff.init({ liffId: liffId })
+      $.get(script_url, { opt: 'get_name' }, (data) => {
+        if (data.status != 'success') return alert('เกิดข้อผิดพลาด')
+        $('#name-select').empty()
+        $('#name-select').append(`<option value="" selected disabled>เลือกชื่อ</option>`)
+        data.name.forEach((name) => {
+          $('#name-select').append(`<option value="${name[1]}">${name[0]}</option>`)
+        })
+      })
+      liff.ready.then(async () => {
+        if (changeAccount) {
+          if (liff.isLoggedIn()) liff.logout()
+        }
+        if (!liff.isLoggedIn()) liff.login()
+        if (!liff.isInClient()) {
+          $('#logout-btn').show()
+        } else {
+          $('#account-btn').show()
+        }
+        profile = await liff.getProfile()
+        let uid = profile.userId
+        $('#profile-picture').attr('src', profile.pictureUrl)
+        $('#profile-picture').show(400, () => {
+          $('#username').show(200)
+        })
+        $('#profile-picture').LoadingOverlay("show", { background: "rgba(255, 255, 255, 0)", imageColor: "#f2f2f2" })
+        $.getJSON(`${script_url}?opt=checkAuth&uid=${uid}`, (json) => {
+
+          if (json?.data?.block == 'TRUE') {
+            $('#main-body').remove()
+            Swal.fire({
+              icon: 'error',
+              title: 'ไม่สามารถเข้าใช้งานได้',
+              text: 'คุณถูกเพิกถอนสิทธิ์การใช้งานแล้ว',
+              showConfirmButton: false,
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              allowEnterKey: false,
+            })
+            return
+          }
+          $('#profile-picture').LoadingOverlay("hide")
+          $('#profile-picture').css('filter', 'none').animate({
+            height: '100px',
+          }, 500);
+          $('#username').html(profile.displayName).data('admin', json?.data?.admin)
+          getCharts()
+          $('#header-p').removeClass('display-5')
+          //                     $('#main-body').css('margin-top', ($('.navbar').position().left + $('.navbar').outerHeight() + 60) + 'px')
+          pesonalData = json.gdata
+          if (json.result != 'success') {
+            $('#modal-regist').modal('show')
+          } else {
+            $('#input-data').slideDown(300)
+          }
+        })
+      })
+    }
+    function setDate() {
+      let firstday = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+      let lastday = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)
+      let month = new Date().getMonth()
+      let year = new Date().getFullYear()
+      for (let i = firstday.getDate(); i <= lastday.getDate(); i++) {
+        let datestring = new Date(year, month, i).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok', year: 'numeric', month: 'long', day: '2-digit' })
+        $('#date').append(`<option value="${i}">${datestring}</option>`)
+      }
+      $('#date').val(new Date().getDate())
+    }
+    // $('.target').on('keyup',function () {
+    //     let val = $(this).val()
+    //     let id = $(this).attr('id')
+    //     
+    //     $('#'+id).val(parseInt(val).toLocaleString())
+    // })
+    $('.input-data').on('keyup', function () {
+      let val = $(this).val()
+      let newval = parseInt(val.replace(/,/g, '').replace(/[^0-9]/g, '')).toLocaleString()
+      if (newval == 'NaN') newval = ''
+      $(this).val(newval)
+    })
+    $('#submit').click(function () {
+      $.LoadingOverlay("show")
+      event.preventDefault()
+      let uid = profile.userId
+      let date = $('#date').val()
+      let keys = $('#keys').val().replace(/,/g, '')
+      let devices = $('#devices').val().replace(/,/g, '')
+      let customer_meeting = $('#customer_meeting').val()
+      let target_customer = $('#target_customer').val()
+      let new_customer_5000 = $('#new_customer_5000').val()
+      let name_devices = $('#name_devices').val()
+      let data = {
+        opt: 'push',
+        uid: uid,
+        date: date,
+        keys: parseInt(keys),
+        devices: parseInt(devices),
+        customer_meeting: parseInt(customer_meeting),
+        target_customer: parseInt(target_customer),
+        new_customer_5000: parseInt(new_customer_5000),
+        name_devices: name_devices
+      }
+      $.get(script_url, data, (res) => {
+        $.LoadingOverlay("hide")
+        if (res.result == 'success') {
+          $(this).html(`บันทึก`)
+          updateChart(res.data)
+          Swal.fire({
+            title: 'บันทึกสำเร็จ',
+            html: '<div class="row m-2 rounded" style="height: 40vh;">' + $('#chart-sec').html() + '</div>',
+            icon: 'success',
+            confirmButtonText: 'ตกลง',
+          }).then(() => {
+            res = res.data
+            $('.input-data').val('')
+            liff.closeWindow()
+          })
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: 'มีข้อผิดพลาด กรุณาลองอีกครั้ง หรือติดต่อผู้ดูแลระบบ',
+            icon: 'error'
+          })
+        }
+      })
+    })
+    function updateChart(data) {
+      $('#target-line').text(pesonalData[1].toLocaleString())
+      $('#mean-line').text(pesonalData[0].toLocaleString())
+      if (data.sum < pesonalData[0]) {
+        $('#line-person').text(data.sum.toLocaleString()).closest('.parent-fluid').addClass('text-bg-danger').removeClass('bg-warning').removeClass('text-dark').removeClass('text-bg-success')
+      } else if (data.sum >= pesonalData[0] && data.sum < pesonalData[1]) {
+        let percent = (data.sum - pesonalData[0]) / (pesonalData[1] - pesonalData[0])
+        let percentOf25 = percent * 25
+        $('#line-person').text(data.sum.toLocaleString()).closest('.parent-fluid').css('height', 50 + percentOf25 + '%').css('border-bottom-right-radius', '7px').addClass('bg-warning').addClass('text-dark').removeClass('text-bg-danger').removeClass('text-bg-success')
+        $('#blank').closest('.parent-fluid').css('height', 50 - percentOf25 + '%').css('border-top-right-radius', '7px')
+      } else {
+        $('#line-person').text(data.sum.toLocaleString()).closest('.parent-fluid').css('height', '100%').css('border-bottom-right-radius', '7px').css('border-top-right-radius', '7px').addClass('text-bg-success').removeClass('text-bg-danger').removeClass('bg-warning').addClass('text-dark')
+        $('#blank').closest('.parent-fluid').css('height', '0%')
+      }
+    }
+    var pesonalData
+    $('#btn-regist').click(function () {
+      event.preventDefault()
+      $('.modal-content').LoadingOverlay('show')
+      let sheet = $('#name-select').val()
+      $.getJSON(`${script_url}?opt=regist&uid=${profile.userId}&sheet=${sheet}`, (json) => {
+        $('.modal-content').LoadingOverlay('hide')
+        if (json.result == 'success') {
+          persanalData = json.gdata
+          $(this).html(`ลงทะเบียน`)
+          $('#modal-regist').modal('hide')
+          Swal.fire({
+            title: 'Success',
+            text: 'ลงทะเบียนสำเร็จ',
+            icon: 'success'
+          }).then(() => {
+            location.reload()
+          })
+        }
+      })
+    })
+    $('#logout-btn').click(() => {
+      liff.logout()
+      window.location.reload()
+    })
+    $('#account-btn').click(() => {
+      Swal.fire({
+        icon: 'question',
+        text: 'คุณต้องการลงชื่อเข้าใช้ด้วยบัญชีอื่น ใช่หรือไม่?',
+        showCancelButton: true,
+        confirmButtonText: `ใช่`,
+        cancelButtonText: `ยกเลิก`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          liff.openWindow({
+            url: "https://liff.line.me/1656187634-joNMPmDq?changeAccount=true",
+            external: true
+          });
+          liff.closeWindow()
+        }
+      })
+    })
+  </script>
+  <script>
+    function getCharts() {
+      $.getJSON('https://script.google.com/macros/s/AKfycbwVsmQzasvUUcpWTb6p68cPYcwmTm2MdBZkZd5FCylIwwtDPiP5RUuNDRUD00uByXRQ/exec', function (imgs_obj) {
+        data = imgs_obj['chart_obj']
+        for (let chart in data) {
+          if (chart.indexOf('kpi') > -1 && data[chart]['uid'].indexOf(profile.userId) == -1 && $('#username').data('admin') != 'TRUE') {
+            $('.' + chart).parent().remove()
+          } else {
+            $('.' + chart).attr('src', data[chart]['url'])
+          }
+        }
+        if ($('#username').data('admin') == 'TRUE') {
+          let tb = $('<table class="table table-bordered table-hover table-striped"></table>')
+          let thead = $('<thead></thead>')
+          data = imgs_obj
+          let tr = $('<tr></tr>').addClass('text-bg-primary')
+          tr.append($('<th></th>', { colspan: '3' }).text(imgs_obj['header']))
+          tr.append($('<th></th>', { colspan: '3' }).addClass('text-end').text(new Date(imgs_obj['date']).toLocaleString('th-TH', { hour12: false, year: 'numeric', month: 'numeric', day: 'numeric' })))
+          thead.append(tr)
+          tr = $('<tr></tr>').addClass('text-bg-warning')
+          data['table_header'].forEach((item) => {
+            let th = $('<th></th>').text(item)
+            tr.append(th)
+          })
+          thead.append(tr)
+          tb.append(thead)
+          let tbody = $('<tbody></tbody>').addClass('bg-warning-subtle')
+          data['table_data'].forEach((row) => {
+            let tr = $('<tr></tr>')
+            row.forEach((item) => {
+              let td = $('<td></td>').text(item.toLocaleString())
+              tr.append(td)
+            })
+            tbody.append(tr)
+          })
+          tb.append(tbody)
+          $('#table-div').append(tb)
+        } else {
+          $('#table-div').remove()
+          $('.kpi_immobilizer, .chart_sales, .chart_target').remove()
+        }
+        $('#all-charts').show(200)
+      })
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+</body>
+
+</html>
